@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, 'feature/**']
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test-linux-amd64:
+    name: Tests (linux/amd64)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout cuis-tonel
+        uses: actions/checkout@v4
+        with:
+          path: cuis-tonel
+
+      - name: Checkout Cuis-Smalltalk-Dev (VM + image)
+        uses: actions/checkout@v4
+        with:
+          repository: gstn-caruso/Cuis-Smalltalk-Dev
+          path: Cuis-Smalltalk-Dev
+          fetch-depth: 1
+
+      - name: Run tests
+        run: |
+          CUIS_DEV_ROOT="$GITHUB_WORKSPACE/Cuis-Smalltalk-Dev" \
+          CUIS_VM_ARGS="-vm-sound-null -vm-display-null" \
+          bash cuis-tonel/.github/scripts/run-tests.sh
+
+  test-linux-arm64:
+    name: Tests (linux/arm64)
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout cuis-tonel
+        uses: actions/checkout@v4
+        with:
+          path: cuis-tonel
+
+      - name: Checkout Cuis-Smalltalk-Dev (VM + image)
+        uses: actions/checkout@v4
+        with:
+          repository: gstn-caruso/Cuis-Smalltalk-Dev
+          path: Cuis-Smalltalk-Dev
+          fetch-depth: 1
+
+      - name: Set up VM permissions
+        run: |
+          ARCH="$(uname -m)"
+          case "$ARCH" in
+            aarch64|arm64) VM_BIN="$GITHUB_WORKSPACE/Cuis-Smalltalk-Dev/CuisVM.app/Contents/Linux-arm64/squeak" ;;
+            *) VM_BIN="$GITHUB_WORKSPACE/Cuis-Smalltalk-Dev/CuisVM.app/Contents/Linux-x86_64/squeak" ;;
+          esac
+          chmod +x "$VM_BIN"
+          echo "PLATFORMLIBDIR=/lib/aarch64-linux-gnu" >> "$GITHUB_ENV"
+
+      - name: Run tests
+        run: |
+          CUIS_DEV_ROOT="$GITHUB_WORKSPACE/Cuis-Smalltalk-Dev" \
+          CUIS_VM_ARGS="-vm-sound-null -vm-display-null" \
+          bash cuis-tonel/.github/scripts/run-tests.sh

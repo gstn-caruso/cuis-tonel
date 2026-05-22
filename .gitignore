@@ -1,4 +1,5 @@
 .DS_Store
-dist/
 *.image
 *.changes
+manifest.txt
+UserChanges/
