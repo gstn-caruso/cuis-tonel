@@ -17,7 +17,7 @@ TonelImageExporterTest >> contentsOf: aFileEntry [
 { #category : 'running' }
 TonelImageExporterTest >> setUp [
 	super setUp.
-	exportRoot := ('/private/tmp/cuis-tonel-exporter-test' asDirectoryEntry) assureExistence
+	exportRoot := '/tmp/cuis-tonel-exporter-test' asDirectoryEntry assureExistence
 ]
 
 { #category : 'tests' }
