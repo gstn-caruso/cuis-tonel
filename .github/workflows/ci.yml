@@ -64,3 +64,34 @@ jobs:
           CUIS_DEV_ROOT="$GITHUB_WORKSPACE/Cuis-Smalltalk-Dev" \
           CUIS_VM_ARGS="-vm-sound-null -vm-display-null" \
           bash cuis-tonel/.github/scripts/run-tests.sh
+
+  release:
+    name: Release
+    needs: [test-linux-amd64, test-linux-arm64]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout cuis-tonel
+        uses: actions/checkout@v4
+        with:
+          path: cuis-tonel
+
+      - name: Generate version tag
+        id: version
+        run: |
+          echo "tag=$(date -u +'%Y.%m.%d')-${GITHUB_SHA::8}" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd cuis-tonel
+          COMMIT_MSG="$(git log -1 --pretty=%s)"
+          gh release create "${{ steps.version.outputs.tag }}" \
+            --title "cuis-tonel ${{ steps.version.outputs.tag }}" \
+            --notes "$(printf 'Commit: %s\n\n%s' "$GITHUB_SHA" "$COMMIT_MSG")" \
+            dist/Tonel.pck.st \
+            dist/Tests-Tonel.pck.st
