@@ -93,5 +93,4 @@ jobs:
           gh release create "${{ steps.version.outputs.tag }}" \
             --title "cuis-tonel ${{ steps.version.outputs.tag }}" \
             --notes "$(printf 'Commit: %s\n\n%s' "$GITHUB_SHA" "$COMMIT_MSG")" \
-            dist/Tonel.pck.st \
-            dist/Tests-Tonel.pck.st
+            dist/Tonel.pck.st

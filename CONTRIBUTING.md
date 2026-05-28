@@ -1,0 +1,31 @@
+# Contribuir
+
+## Limitaciones conocidas
+
+Estas son las áreas donde la implementación actual es incompleta. Son buenos puntos de entrada para contribuir.
+
+### Sin soporte de métodos de extensión
+
+En Tonel, un paquete puede agregar métodos a clases de otro paquete usando archivos `.extension.st`. El writer y el reader actuales no manejan esto: todo método se escribe en el `.class.st` de su clase.
+
+### El importer no elimina métodos borrados
+
+Si se elimina un método del `.class.st` y se reimporta, el método sigue en la imagen. El importer solo agrega y sobreescribe; para borrar hay que hacerlo manualmente.
+
+### El importer no actualiza variables de instancia ni de clase
+
+Si la clase ya existe y el archivo Tonel tiene variables distintas, el importer solo recompila métodos. Para cambiar la estructura hay que modificar la clase manualmente o eliminarla primero.
+
+### Sin soporte de traits
+
+Cuis soporta traits. Los archivos Tonel para traits usan `Trait {` en lugar de `Class {`. El reader y el writer actuales solo manejan clases.
+
+### Sin exportación por nombre de paquete
+
+No existe `TonelImageExporter exportPackage: 'Tonel' to: dir`. Por ahora hay que obtener las clases manualmente:
+
+```smalltalk
+clases := Smalltalk allClasses select: [ :c |
+    (TonelWriter packageNameForCategory: c category) = 'Tonel' ].
+TonelImageExporter exportClasses: clases to: dir.
+```
