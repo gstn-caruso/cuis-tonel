@@ -24,11 +24,29 @@ TonelImageExporterTest >> setUp [
 TonelImageExporterTest >> testExportClassesWritesGroupedTonelFile [
 	| file source |
 	TonelImageExporter exportClasses: { TonelWriterTest } to: exportRoot.
-	file := exportRoot / 'src' / 'Tests' // 'TonelWriterTest.class.st'.
+	file := exportRoot / 'src' / 'Tests-Tonel' // 'TonelWriterTest.class.st'.
 	self assert: file exists.
 	source := self contentsOf: file.
 	self assert: (source includesSubString: 'Class {').
 	self assert: (source includesSubString: 'TonelWriterTest >> assert: aString includes: expectedSubstring [')
+]
+
+{ #category : 'tests' }
+TonelImageExporterTest >> testExportWritesExtensionMethodsIntoOwningPackage [
+	"An extension method (category starting with $*) must be written as a .extension.st under the owning package, and must NOT appear in the home class file."
+	| header |
+	header := 'TonelImageExporterTest >> ', 'fixtureExtensionMethod ['.
+	TonelImageExporterTest compile: 'fixtureExtensionMethod
+	^ 42' classified: '*ZzzFakePackage'.
+	[ | classFile extFile |
+		TonelImageExporter exportClasses: { TonelImageExporterTest } to: exportRoot.
+		classFile := exportRoot / 'src' / 'Tests-Tonel' // 'TonelImageExporterTest.class.st'.
+		extFile := exportRoot / 'src' / 'ZzzFakePackage' // 'TonelImageExporterTest.extension.st'.
+		self assert: extFile exists.
+		self assert: ((self contentsOf: extFile) includesSubString: 'Extension { #name : ''TonelImageExporterTest'' }').
+		self assert: ((self contentsOf: extFile) includesSubString: header).
+		self deny: ((self contentsOf: classFile) includesSubString: header) ]
+		ensure: [ TonelImageExporterTest removeSelector: #fixtureExtensionMethod ]
 ]
 
 { #category : 'tests' }

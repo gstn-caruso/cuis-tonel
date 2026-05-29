@@ -6,6 +6,13 @@ Class {
 }
 
 { #category : 'writing' }
+TonelWriter class >> isExtensionCategory: aCategory [
+	| s |
+	s := aCategory asString.
+	^ s notEmpty and: [ s first = $* ]
+]
+
+{ #category : 'writing' }
 TonelWriter class >> methodCategoryOf: selector in: aClassOrMetaclass [
 	^ (aClassOrMetaclass organization categoryOfElement: selector) ifNil: [ #'as yet unclassified' ]
 ]
@@ -76,20 +83,27 @@ TonelWriter class >> writeClass: aClass on: stream [
 ]
 
 { #category : 'writing' }
+TonelWriter class >> writeMethod: selector of: aClassOrMetaclass classSide: classSide className: className on: stream [
+	| source sourceStream declarationLine body category |
+	source := aClassOrMetaclass sourceCodeAt: selector.
+	sourceStream := source readStream.
+	declarationLine := sourceStream nextLine.
+	body := sourceStream upToEnd.
+	category := self methodCategoryOf: selector in: aClassOrMetaclass.
+	stream newLine.
+	stream nextPutAll: '{ #category : '''; nextPutAll: (self stonString: category); nextPutAll: ''' }'; newLine.
+	stream nextPutAll: className.
+	classSide ifTrue: [ stream nextPutAll: ' class' ].
+	stream nextPutAll: ' >> '; nextPutAll: declarationLine; nextPutAll: ' ['.
+	stream newLine; nextPutAll: body; newLine; nextPutAll: ']'; newLine
+]
+
+{ #category : 'writing' }
 TonelWriter class >> writeMethodsOf: aClassOrMetaclass classSide: classSide className: className on: stream [
+	"Write only the methods owned by this class (skip extension methods, whose category starts with $*; those belong to another package and are written as .extension.st files)."
 	| selectors |
 	selectors := aClassOrMetaclass selectors asArray sort.
 	selectors do: [ :selector |
-		| source category sourceStream declarationLine body |
-		source := aClassOrMetaclass sourceCodeAt: selector.
-		sourceStream := source readStream.
-		declarationLine := sourceStream nextLine.
-		body := sourceStream upToEnd.
-		category := self methodCategoryOf: selector in: aClassOrMetaclass.
-		stream newLine.
-		stream nextPutAll: '{ #category : '''; nextPutAll: (self stonString: category); nextPutAll: ''' }'; newLine.
-		stream nextPutAll: className.
-		classSide ifTrue: [ stream nextPutAll: ' class' ].
-		stream nextPutAll: ' >> '; nextPutAll: declarationLine; nextPutAll: ' ['.
-		stream newLine; nextPutAll: body; newLine; nextPutAll: ']'; newLine ]
+		(self isExtensionCategory: (self methodCategoryOf: selector in: aClassOrMetaclass))
+			ifFalse: [ self writeMethod: selector of: aClassOrMetaclass classSide: classSide className: className on: stream ] ]
 ]
