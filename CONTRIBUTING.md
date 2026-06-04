@@ -4,10 +4,6 @@
 
 Estas son las áreas donde la implementación actual es incompleta. Son buenos puntos de entrada para contribuir.
 
-### Sin soporte de métodos de extensión
-
-En Tonel, un paquete puede agregar métodos a clases de otro paquete usando archivos `.extension.st`. El writer y el reader actuales no manejan esto: todo método se escribe en el `.class.st` de su clase.
-
 ### El importer no elimina métodos borrados
 
 Si se elimina un método del `.class.st` y se reimporta, el método sigue en la imagen. El importer solo agrega y sobreescribe; para borrar hay que hacerlo manualmente.
