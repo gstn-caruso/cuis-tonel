@@ -1,8 +1,9 @@
-'From Cuis7.7 [latest update: #7777] on 22 May 2026 at 5:20:04 am'!
+'From Cuis7.7 [latest update: #7777] on 4 June 2026 at 7:23:38 pm'!
 'Description Tests for Cuis Tonel export support.'!
-!provides: 'Tests-Tonel' 1 2!
+!provides: 'Tests-Tonel' 1 3!
 !requires: 'Tonel' 1 1 nil!
 SystemOrganization addCategory: #'Tests-Tonel'!
+SystemOrganization addCategory: #'Tests-Tonel-Imported'!
 
 
 !classDefinition: #TonelImageExporterTest category: #'Tests-Tonel'!
@@ -83,15 +84,40 @@ testPackageNameForCategory
 	self assert: (TonelImageExporter packageNameForCategory: #'Tests-Tonel') equals: 'Tests'.
 	self assert: (TonelImageExporter packageNameForCategory: #Tonel) equals: 'Tonel'! !
 
+!TonelImporterTest methodsFor: 'fixtures' stamp: 'GC 4/Jun/2026 19:23:38'!
+orderingChildSource
+	^ 'Class {
+	#name : ''TonelOrderingChild'',
+	#superclass : ''TonelOrderingParent'',
+	#category : ''Tests-Tonel-Imported'',
+	#package : ''Tests'',
+	#tag : ''Tonel-Imported''
+}
+'
+! !
+
+!TonelImporterTest methodsFor: 'fixtures' stamp: 'GC 4/Jun/2026 19:23:38'!
+orderingParentSource
+	^ 'Class {
+	#name : ''TonelOrderingParent'',
+	#superclass : ''Object'',
+	#category : ''Tests-Tonel-Imported'',
+	#package : ''Tests'',
+	#tag : ''Tonel-Imported''
+}
+'
+! !
+
 !TonelImporterTest methodsFor: 'fixtures' stamp: 'FJG 22/May/2026 00:00:00'!
 sampleTonelSource
 	^ TonelReaderTest new sampleTonelSource! !
 
-!TonelImporterTest methodsFor: 'running' stamp: 'FJG 22/May/2026 00:00:00'!
+!TonelImporterTest methodsFor: 'running' stamp: 'GC 4/Jun/2026 19:23:38'!
 tearDown
-	(Smalltalk classNamed: #TonelRoundTripExample) ifNotNil: [ :class |
-		class removeFromSystemUnlogged ].
-	super tearDown! !
+	#(TonelRoundTripExample TonelOrderingChild TonelOrderingParent) do: [ :n |
+		(Smalltalk classNamed: n) ifNotNil: [ :c | c removeFromSystemUnlogged ] ].
+	super tearDown
+! !
 
 !TonelImporterTest methodsFor: 'tests' stamp: 'FJG 22/May/2026 00:00:00'!
 testImportCreatesClassAndCompilesInstanceMethods
@@ -103,6 +129,20 @@ testImportCreatesClassAndCompilesInstanceMethods
 	self assert: class category equals: #'Tests-Tonel-Imported'.
 	instance := class withValue: 7.
 	self assert: instance value equals: 7! !
+
+!TonelImporterTest methodsFor: 'tests' stamp: 'GC 4/Jun/2026 19:23:38'!
+testImportDefinitionsImportsSubclassListedBeforeItsSuperclass
+	"importDefinitions: must order definitions superclass-first, regardless of the
+	 order given, so a subclass listed before its superclass is still imported."
+	| parentDef childDef |
+	parentDef := TonelReader readStream: self orderingParentSource readStream.
+	childDef := TonelReader readStream: self orderingChildSource readStream.
+	TonelImporter importDefinitions: { childDef. parentDef }.
+	self deny: (Smalltalk classNamed: #TonelOrderingParent) isNil.
+	self deny: (Smalltalk classNamed: #TonelOrderingChild) isNil.
+	self assert: (Smalltalk classNamed: #TonelOrderingChild) superclass
+	          equals: (Smalltalk classNamed: #TonelOrderingParent)
+! !
 
 !TonelImporterTest methodsFor: 'tests' stamp: 'FJG 22/May/2026 00:00:00'!
 testReimportUpdatesExistingMethod

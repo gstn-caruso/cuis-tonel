@@ -7,15 +7,42 @@ Class {
 }
 
 { #category : 'fixtures' }
+TonelImporterTest >> orderingChildSource [
+	^ 'Class {
+	#name : ''TonelOrderingChild'',
+	#superclass : ''TonelOrderingParent'',
+	#category : ''Tests-Tonel-Imported'',
+	#package : ''Tests'',
+	#tag : ''Tonel-Imported''
+}
+'
+
+]
+
+{ #category : 'fixtures' }
+TonelImporterTest >> orderingParentSource [
+	^ 'Class {
+	#name : ''TonelOrderingParent'',
+	#superclass : ''Object'',
+	#category : ''Tests-Tonel-Imported'',
+	#package : ''Tests'',
+	#tag : ''Tonel-Imported''
+}
+'
+
+]
+
+{ #category : 'fixtures' }
 TonelImporterTest >> sampleTonelSource [
 	^ TonelReaderTest new sampleTonelSource
 ]
 
 { #category : 'running' }
 TonelImporterTest >> tearDown [
-	(Smalltalk classNamed: #TonelRoundTripExample) ifNotNil: [ :class |
-		class removeFromSystemUnlogged ].
+	#(TonelRoundTripExample TonelOrderingChild TonelOrderingParent) do: [ :n |
+		(Smalltalk classNamed: n) ifNotNil: [ :c | c removeFromSystemUnlogged ] ].
 	super tearDown
+
 ]
 
 { #category : 'tests' }
@@ -28,6 +55,21 @@ TonelImporterTest >> testImportCreatesClassAndCompilesInstanceMethods [
 	self assert: class category equals: #'Tests-Tonel-Imported'.
 	instance := class withValue: 7.
 	self assert: instance value equals: 7
+]
+
+{ #category : 'tests' }
+TonelImporterTest >> testImportDefinitionsImportsSubclassListedBeforeItsSuperclass [
+	"importDefinitions: must order definitions superclass-first, regardless of the
+	 order given, so a subclass listed before its superclass is still imported."
+	| parentDef childDef |
+	parentDef := TonelReader readStream: self orderingParentSource readStream.
+	childDef := TonelReader readStream: self orderingChildSource readStream.
+	TonelImporter importDefinitions: { childDef. parentDef }.
+	self deny: (Smalltalk classNamed: #TonelOrderingParent) isNil.
+	self deny: (Smalltalk classNamed: #TonelOrderingChild) isNil.
+	self assert: (Smalltalk classNamed: #TonelOrderingChild) superclass
+	          equals: (Smalltalk classNamed: #TonelOrderingParent)
+
 ]
 
 { #category : 'tests' }

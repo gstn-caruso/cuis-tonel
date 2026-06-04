@@ -1,6 +1,6 @@
-'From Cuis7.7 [latest update: #7777] on 22 May 2026 at 00:00:00 am'!
+'From Cuis7.7 [latest update: #7777] on 4 June 2026 at 7:23:38 pm'!
 'Description Cuis-native Tonel export/import support based on the Tonel v3 source format.'!
-!provides: 'Tonel' 1 1!
+!provides: 'Tonel' 1 2!
 !requires: 'Cuis-Base' 60 5557 nil!
 SystemOrganization addCategory: #Tonel!
 
@@ -66,131 +66,261 @@ TonelWriter class
 	instanceVariableNames: ''!
 
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 category
 	^ category! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 category: aSymbol
 	category := aSymbol! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 classInstanceVariableNames
 	^ classInstanceVariableNames ifNil: [ #() ]! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 classInstanceVariableNames: aCollection
 	classInstanceVariableNames := aCollection asArray! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 className
 	^ className! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 className: aSymbol
 	className := aSymbol! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 classVariableNames
 	^ classVariableNames ifNil: [ #() ]! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 classVariableNames: aCollection
 	classVariableNames := aCollection asArray! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 comment
 	^ comment ifNil: [ '' ]! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 comment: aString
 	comment := aString! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 instanceVariableNames
 	^ instanceVariableNames ifNil: [ #() ]! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 instanceVariableNames: aCollection
 	instanceVariableNames := aCollection asArray! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 methods
 	^ methods ifNil: [ methods := OrderedCollection new ]! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 package
 	^ package! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 package: aSymbol
 	package := aSymbol! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 poolDictionaries
 	^ poolDictionaries ifNil: [ #() ]! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 poolDictionaries: aCollection
 	poolDictionaries := aCollection asArray! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 superclassName
 	^ superclassName! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 superclassName: aSymbol
 	superclassName := aSymbol! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 tag
 	^ tag! !
 
-!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelClassDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 tag: aSymbol
 	tag := aSymbol! !
 
-!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelImageExporter class methodsFor: 'exporting' stamp: 'FJG 22/May/2026 00:00:00'!
+exportAllTo: aDirectoryEntry
+	^ self exportClasses: (Smalltalk allClasses asArray sort: [ :left :right | left name < right name ]) to: aDirectoryEntry! !
+
+!TonelImageExporter class methodsFor: 'exporting' stamp: 'FJG 22/May/2026 00:00:00'!
+exportClasses: classes to: aDirectoryEntry
+	| outputRoot srcRoot classCount methodCount packages |
+	outputRoot := aDirectoryEntry assureExistence.
+	srcRoot := (outputRoot / 'src') assureExistence.
+	(srcRoot // '.properties') forceWriteStreamDo: [ :stream |
+		stream nextPutAll: '{'; newLine; tab; nextPutAll: '#format : #tonel'; newLine; nextPutAll: '}'; newLine ].
+	classCount := 0.
+	methodCount := 0.
+	packages := Set new.
+	classes do: [ :class |
+		| package packageDir file |
+		package := self packageNameForCategory: class category.
+		packages add: package.
+		packageDir := (srcRoot / package) assureExistence.
+		file := packageDir // (self fileNameForClass: class).
+		file forceWriteStreamDo: [ :stream | TonelWriter writeClass: class on: stream ].
+		classCount := classCount + 1.
+		methodCount := methodCount + class selectors size + class class selectors size ].
+	self
+		writeManifestTo: outputRoot
+		classCount: classCount
+		methodCount: methodCount
+		packages: packages.
+	^ outputRoot! !
+
+!TonelImageExporter class methodsFor: 'exporting' stamp: 'FJG 22/May/2026 00:00:00'!
+fileNameForClass: aClass
+	^ aClass name asFileName, '.class.st'! !
+
+!TonelImageExporter class methodsFor: 'exporting' stamp: 'FJG 22/May/2026 00:00:00'!
+packageNameForCategory: aCategoryName
+	^ TonelWriter packageNameForCategory: aCategoryName! !
+
+!TonelImageExporter class methodsFor: 'exporting' stamp: 'FJG 22/May/2026 00:00:00'!
+writeManifestTo: outputRoot classCount: classCount methodCount: methodCount packages: packages
+	(outputRoot // 'manifest.txt') forceWriteStreamDo: [ :stream |
+		stream nextPutAll: 'Tonel image export manifest'; newLine.
+		stream nextPutAll: 'Generated: '; nextPutAll: DateAndTime now printString; newLine.
+		stream nextPutAll: 'Image name: '; nextPutAll: Smalltalk imageName; newLine.
+		stream nextPutAll: 'Image version: '; nextPutAll: SystemVersion current versionString; newLine.
+		stream nextPutAll: 'Exported class count: '; nextPutAll: classCount printString; newLine.
+		stream nextPutAll: 'Exported method count: '; nextPutAll: methodCount printString; newLine.
+		stream nextPutAll: 'Package directory count: '; nextPutAll: packages size printString; newLine.
+		stream nextPutAll: 'Format: Tonel v3-compatible source'; newLine.
+		stream newLine.
+		stream nextPutAll: 'Packages:'; newLine.
+		(packages asArray sort) do: [ :package |
+			stream nextPutAll: '- '; nextPutAll: package; newLine ] ]! !
+
+!TonelImporter class methodsFor: 'importing' stamp: 'GC 4/Jun/2026 19:23:38'!
+definitionsIn: aDirectoryEntry
+	"Recursively read every Tonel definition (.st) under the directory."
+	| definitions |
+	definitions := OrderedCollection new.
+	aDirectoryEntry children do: [ :entry |
+		entry isDirectoryEntry
+			ifTrue: [ definitions addAll: (self definitionsIn: entry) ]
+			ifFalse: [ (entry name endsWith: '.st') ifTrue: [
+				definitions add: (entry readStreamDo: [ :stream | TonelReader readStream: stream ]) ] ] ].
+	^ definitions
+! !
+
+!TonelImporter class methodsFor: 'importing' stamp: 'FJG 22/May/2026 00:00:00'!
+importDefinition: definition
+	| superClassToUse targetClass |
+	targetClass := Smalltalk classNamed: definition className.
+	targetClass ifNil: [
+		superClassToUse := Smalltalk classNamed: definition superclassName.
+		superClassToUse ifNil: [ self error: 'Missing superclass ', definition superclassName ].
+		targetClass := superClassToUse
+			subclass: definition className
+			instanceVariableNames: (self namesStringFrom: definition instanceVariableNames)
+			classVariableNames: (self namesStringFrom: definition classVariableNames)
+			poolDictionaries: (self namesStringFrom: definition poolDictionaries)
+			category: definition category.
+		definition classInstanceVariableNames isEmpty ifFalse: [
+			ClassBuilder new class: targetClass class instanceVariableNames: (self namesStringFrom: definition classInstanceVariableNames) ] ].
+	definition comment isEmptyOrNil ifFalse: [
+		targetClass classComment: definition comment stamp: '<tonel>' ].
+	definition methods do: [ :method |
+		(method classSide ifTrue: [ targetClass class ] ifFalse: [ targetClass ])
+			compile: method source
+			classified: method protocol ].
+	^ targetClass! !
+
+!TonelImporter class methodsFor: 'importing' stamp: 'GC 4/Jun/2026 19:23:38'!
+importDefinitions: aCollectionOfDefinitions
+	"Import the definitions superclass-first: repeatedly import any whose class already
+	 exists or whose superclass is already defined, until none remain. This lets a subclass
+	 be listed (or filed) before its superclass without failing on a missing superclass."
+	| pending progressed |
+	pending := aCollectionOfDefinitions asOrderedCollection.
+	[ pending isEmpty ] whileFalse: [
+		progressed := false.
+		pending copy do: [ :definition |
+			((Smalltalk classNamed: definition className) notNil
+				or: [ (Smalltalk classNamed: definition superclassName) notNil ]) ifTrue: [
+					self importDefinition: definition.
+					pending remove: definition.
+					progressed := true ] ].
+		progressed ifFalse: [
+			self error: 'Missing superclass for: ',
+				(pending collect: [ :each | each className ]) asArray printString ] ]
+! !
+
+!TonelImporter class methodsFor: 'importing' stamp: 'GC 4/Jun/2026 19:23:38'!
+importDirectory: aDirectoryEntry
+	self importDefinitions: (self definitionsIn: aDirectoryEntry)
+! !
+
+!TonelImporter class methodsFor: 'importing' stamp: 'FJG 22/May/2026 00:00:00'!
+importFile: aFileEntry
+	aFileEntry readStreamDo: [ :stream | ^ self importStream: stream ]! !
+
+!TonelImporter class methodsFor: 'importing' stamp: 'FJG 22/May/2026 00:00:00'!
+importStream: aStream
+	^ self importDefinition: (TonelReader readStream: aStream)! !
+
+!TonelImporter class methodsFor: 'importing' stamp: 'FJG 22/May/2026 00:00:00'!
+namesStringFrom: aCollection
+	^ String streamContents: [ :stream |
+		aCollection do: [ :each |
+			stream nextPutAll: each asString.
+			each == aCollection last ifFalse: [ stream space ] ] ]! !
+
+!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 className
 	^ className! !
 
-!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 className: aSymbol
 	className := aSymbol! !
 
-!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 classSide
 	^ classSide ifNil: [ false ]! !
 
-!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 classSide: aBoolean
 	classSide := aBoolean! !
 
-!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 protocol
 	^ protocol! !
 
-!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 protocol: aSymbol
 	protocol := aSymbol! !
 
-!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 selector
 	^ selector! !
 
-!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 selector: aSymbol
 	selector := aSymbol! !
 
-!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 source
 	^ source! !
 
-!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelMethodDefinition methodsFor: 'accessing' stamp: 'FJG 22/May/2026 00:00:00'!
 source: aString
 	source := aString! !
 
-!TonelReader methodsFor: 'parsing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelReader methodsFor: 'parsing' stamp: 'FJG 22/May/2026 00:00:00'!
 metadataAt: key in: lines
 	| prefix line raw |
 	prefix := '#', key, ' : '.
@@ -199,7 +329,7 @@ metadataAt: key in: lines
 	(raw endsWith: ',') ifTrue: [ raw := raw allButLast ].
 	^ self unquote: raw! !
 
-!TonelReader methodsFor: 'parsing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelReader methodsFor: 'parsing' stamp: 'FJG 22/May/2026 00:00:00'!
 metadataListAt: key in: lines
 	| prefix startIndex values index line trimmed |
 	prefix := '#', key, ' : ['.
@@ -218,7 +348,7 @@ metadataListAt: key in: lines
 		index := index + 1 ].
 	^ values asArray! !
 
-!TonelReader methodsFor: 'parsing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelReader methodsFor: 'parsing' stamp: 'FJG 22/May/2026 00:00:00'!
 parse
 	| definition lines line |
 	definition := TonelClassDefinition new.
@@ -241,7 +371,7 @@ parse
 		line withBlanksTrimmed = '}' ifTrue: [ ^ self parseMethodsInto: (self parseTypeDefinitionFrom: lines into: definition) ] ].
 	^ definition! !
 
-!TonelReader methodsFor: 'parsing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelReader methodsFor: 'parsing' stamp: 'FJG 22/May/2026 00:00:00'!
 parseMethodHeader: headerLine metadata: metadataLine into: definition
 	| protocol declaration method sourceStream classSide className selectorSource depth inString inComment |
 	protocol := self unquote: ((metadataLine copyAfter: $:) copyUpTo: $}) withBlanksTrimmed.
@@ -321,7 +451,7 @@ parseMethodHeader: headerLine metadata: metadataLine into: definition
 			handled ifFalse: [ sourceStream nextPut: character ].
 			index := index + 1 ] ]! !
 
-!TonelReader methodsFor: 'parsing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelReader methodsFor: 'parsing' stamp: 'FJG 22/May/2026 00:00:00'!
 parseMethodsInto: definition
 	| line metadata |
 	[ stream atEnd ] whileFalse: [
@@ -331,7 +461,7 @@ parseMethodsInto: definition
 			self parseMethodHeader: stream nextLine metadata: metadata into: definition ] ].
 	^ definition! !
 
-!TonelReader methodsFor: 'parsing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelReader methodsFor: 'parsing' stamp: 'FJG 22/May/2026 00:00:00'!
 parseTypeDefinitionFrom: lines into: definition
 	definition
 		className: (self metadataAt: 'name' in: lines) asSymbol;
@@ -345,7 +475,7 @@ parseTypeDefinitionFrom: lines into: definition
 	(self metadataAt: 'tag' in: lines) ifNotNil: [ :tagName | definition tag: tagName asSymbol ].
 	^ definition! !
 
-!TonelReader methodsFor: 'parsing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelReader methodsFor: 'parsing' stamp: 'FJG 22/May/2026 00:00:00'!
 selectorFromMethodSource: sourceString
 	| firstLine tokens selector |
 	firstLine := sourceString readStream nextLine.
@@ -356,11 +486,11 @@ selectorFromMethodSource: sourceString
 		^ selector contents asSymbol ].
 	^ tokens first asSymbol! !
 
-!TonelReader methodsFor: 'parsing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelReader methodsFor: 'parsing' stamp: 'FJG 22/May/2026 00:00:00'!
 stream: aStream
 	stream := aStream! !
 
-!TonelReader methodsFor: 'parsing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelReader methodsFor: 'parsing' stamp: 'FJG 22/May/2026 00:00:00'!
 unquote: aString
 	| trimmed |
 	trimmed := aString withBlanksTrimmed.
@@ -368,17 +498,17 @@ unquote: aString
 		ifFalse: [ ^ trimmed ].
 	^ (trimmed copyFrom: 2 to: trimmed size - 1) copyReplaceAll: '''''' with: ''''! !
 
-!TonelReader class methodsFor: 'instance creation' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelReader class methodsFor: 'instance creation' stamp: 'FJG 22/May/2026 00:00:00'!
 readStream: aStream
 	^ self new
 		stream: aStream;
 		parse! !
 
-!TonelWriter class methodsFor: 'writing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelWriter class methodsFor: 'writing' stamp: 'FJG 22/May/2026 00:00:00'!
 methodCategoryOf: selector in: aClassOrMetaclass
 	^ (aClassOrMetaclass organization categoryOfElement: selector) ifNil: [ #'as yet unclassified' ]! !
 
-!TonelWriter class methodsFor: 'writing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelWriter class methodsFor: 'writing' stamp: 'FJG 22/May/2026 00:00:00'!
 packageNameForCategory: aCategoryName
 	| category dashIndex |
 	category := aCategoryName asString.
@@ -386,11 +516,11 @@ packageNameForCategory: aCategoryName
 	dashIndex = 0 ifTrue: [ ^ category ].
 	^ category copyFrom: 1 to: dashIndex - 1! !
 
-!TonelWriter class methodsFor: 'writing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelWriter class methodsFor: 'writing' stamp: 'FJG 22/May/2026 00:00:00'!
 sourceForClass: aClass
 	^ String streamContents: [ :stream | self writeClass: aClass on: stream ]! !
 
-!TonelWriter class methodsFor: 'writing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelWriter class methodsFor: 'writing' stamp: 'FJG 22/May/2026 00:00:00'!
 stonKey: key value: value on: stream last: isLast
 	stream
 		tab; nextPut: $#; nextPutAll: key; nextPutAll: ' : ';
@@ -398,7 +528,7 @@ stonKey: key value: value on: stream last: isLast
 	isLast ifFalse: [ stream nextPut: $, ].
 	stream newLine! !
 
-!TonelWriter class methodsFor: 'writing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelWriter class methodsFor: 'writing' stamp: 'FJG 22/May/2026 00:00:00'!
 stonListKey: key values: values on: stream
 	values isEmpty ifTrue: [ ^ self ].
 	stream tab; nextPut: $#; nextPutAll: key; nextPutAll: ' : ['; newLine.
@@ -408,11 +538,11 @@ stonListKey: key values: values on: stream
 		stream newLine ].
 	stream tab; nextPutAll: '],'; newLine! !
 
-!TonelWriter class methodsFor: 'writing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelWriter class methodsFor: 'writing' stamp: 'FJG 22/May/2026 00:00:00'!
 stonString: aString
 	^ aString asString copyReplaceAll: '''' with: ''''''! !
 
-!TonelWriter class methodsFor: 'writing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelWriter class methodsFor: 'writing' stamp: 'FJG 22/May/2026 00:00:00'!
 writeClass: aClass on: stream
 	| comment category package tag classVars pools |
 	comment := aClass organization classComment.
@@ -437,7 +567,7 @@ writeClass: aClass on: stream
 	self writeMethodsOf: aClass class classSide: true className: aClass name on: stream.
 	self writeMethodsOf: aClass classSide: false className: aClass name on: stream! !
 
-!TonelWriter class methodsFor: 'writing' stamp: 'FJG 5/22/2026 00:00:00'!
+!TonelWriter class methodsFor: 'writing' stamp: 'FJG 22/May/2026 00:00:00'!
 writeMethodsOf: aClassOrMetaclass classSide: classSide className: className on: stream
 	| selectors |
 	selectors := aClassOrMetaclass selectors asArray sort.
@@ -454,102 +584,3 @@ writeMethodsOf: aClassOrMetaclass classSide: classSide className: className on: 
 		classSide ifTrue: [ stream nextPutAll: ' class' ].
 		stream nextPutAll: ' >> '; nextPutAll: declarationLine; nextPutAll: ' ['.
 		stream newLine; nextPutAll: body; newLine; nextPutAll: ']'; newLine ]! !
-
-!TonelImporter class methodsFor: 'importing' stamp: 'FJG 5/22/2026 00:00:00'!
-importDefinition: definition
-	| superClassToUse targetClass |
-	targetClass := Smalltalk classNamed: definition className.
-	targetClass ifNil: [
-		superClassToUse := Smalltalk classNamed: definition superclassName.
-		superClassToUse ifNil: [ self error: 'Missing superclass ', definition superclassName ].
-		targetClass := superClassToUse
-			subclass: definition className
-			instanceVariableNames: (self namesStringFrom: definition instanceVariableNames)
-			classVariableNames: (self namesStringFrom: definition classVariableNames)
-			poolDictionaries: (self namesStringFrom: definition poolDictionaries)
-			category: definition category.
-		definition classInstanceVariableNames isEmpty ifFalse: [
-			ClassBuilder new class: targetClass class instanceVariableNames: (self namesStringFrom: definition classInstanceVariableNames) ] ].
-	definition comment isEmptyOrNil ifFalse: [
-		targetClass classComment: definition comment stamp: '<tonel>' ].
-	definition methods do: [ :method |
-		(method classSide ifTrue: [ targetClass class ] ifFalse: [ targetClass ])
-			compile: method source
-			classified: method protocol ].
-	^ targetClass! !
-
-!TonelImporter class methodsFor: 'importing' stamp: 'FJG 5/22/2026 00:00:00'!
-importDirectory: aDirectoryEntry
-	aDirectoryEntry children do: [ :entry |
-		entry isDirectoryEntry
-			ifTrue: [ self importDirectory: entry ]
-			ifFalse: [ (entry name endsWith: '.st') ifTrue: [ self importFile: entry ] ] ]! !
-
-!TonelImporter class methodsFor: 'importing' stamp: 'FJG 5/22/2026 00:00:00'!
-importFile: aFileEntry
-	aFileEntry readStreamDo: [ :stream | ^ self importStream: stream ]! !
-
-!TonelImporter class methodsFor: 'importing' stamp: 'FJG 5/22/2026 00:00:00'!
-importStream: aStream
-	^ self importDefinition: (TonelReader readStream: aStream)! !
-
-!TonelImporter class methodsFor: 'importing' stamp: 'FJG 5/22/2026 00:00:00'!
-namesStringFrom: aCollection
-	^ String streamContents: [ :stream |
-		aCollection do: [ :each |
-			stream nextPutAll: each asString.
-			each == aCollection last ifFalse: [ stream space ] ] ]! !
-
-!TonelImageExporter class methodsFor: 'exporting' stamp: 'FJG 5/22/2026 00:00:00'!
-exportAllTo: aDirectoryEntry
-	^ self exportClasses: (Smalltalk allClasses asArray sort: [ :left :right | left name < right name ]) to: aDirectoryEntry! !
-
-!TonelImageExporter class methodsFor: 'exporting' stamp: 'FJG 5/22/2026 00:00:00'!
-exportClasses: classes to: aDirectoryEntry
-	| outputRoot srcRoot classCount methodCount packages |
-	outputRoot := aDirectoryEntry assureExistence.
-	srcRoot := (outputRoot / 'src') assureExistence.
-	(srcRoot // '.properties') forceWriteStreamDo: [ :stream |
-		stream nextPutAll: '{'; newLine; tab; nextPutAll: '#format : #tonel'; newLine; nextPutAll: '}'; newLine ].
-	classCount := 0.
-	methodCount := 0.
-	packages := Set new.
-	classes do: [ :class |
-		| package packageDir file |
-		package := self packageNameForCategory: class category.
-		packages add: package.
-		packageDir := (srcRoot / package) assureExistence.
-		file := packageDir // (self fileNameForClass: class).
-		file forceWriteStreamDo: [ :stream | TonelWriter writeClass: class on: stream ].
-		classCount := classCount + 1.
-		methodCount := methodCount + class selectors size + class class selectors size ].
-	self
-		writeManifestTo: outputRoot
-		classCount: classCount
-		methodCount: methodCount
-		packages: packages.
-	^ outputRoot! !
-
-!TonelImageExporter class methodsFor: 'exporting' stamp: 'FJG 5/22/2026 00:00:00'!
-fileNameForClass: aClass
-	^ aClass name asFileName, '.class.st'! !
-
-!TonelImageExporter class methodsFor: 'exporting' stamp: 'FJG 5/22/2026 00:00:00'!
-packageNameForCategory: aCategoryName
-	^ TonelWriter packageNameForCategory: aCategoryName! !
-
-!TonelImageExporter class methodsFor: 'exporting' stamp: 'FJG 5/22/2026 00:00:00'!
-writeManifestTo: outputRoot classCount: classCount methodCount: methodCount packages: packages
-	(outputRoot // 'manifest.txt') forceWriteStreamDo: [ :stream |
-		stream nextPutAll: 'Tonel image export manifest'; newLine.
-		stream nextPutAll: 'Generated: '; nextPutAll: DateAndTime now printString; newLine.
-		stream nextPutAll: 'Image name: '; nextPutAll: Smalltalk imageName; newLine.
-		stream nextPutAll: 'Image version: '; nextPutAll: SystemVersion current versionString; newLine.
-		stream nextPutAll: 'Exported class count: '; nextPutAll: classCount printString; newLine.
-		stream nextPutAll: 'Exported method count: '; nextPutAll: methodCount printString; newLine.
-		stream nextPutAll: 'Package directory count: '; nextPutAll: packages size printString; newLine.
-		stream nextPutAll: 'Format: Tonel v3-compatible source'; newLine.
-		stream newLine.
-		stream nextPutAll: 'Packages:'; newLine.
-		(packages asArray sort) do: [ :package |
-			stream nextPutAll: '- '; nextPutAll: package; newLine ] ]! !

@@ -6,6 +6,20 @@ Class {
 }
 
 { #category : 'importing' }
+TonelImporter class >> definitionsIn: aDirectoryEntry [
+	"Recursively read every Tonel definition (.st) under the directory."
+	| definitions |
+	definitions := OrderedCollection new.
+	aDirectoryEntry children do: [ :entry |
+		entry isDirectoryEntry
+			ifTrue: [ definitions addAll: (self definitionsIn: entry) ]
+			ifFalse: [ (entry name endsWith: '.st') ifTrue: [
+				definitions add: (entry readStreamDo: [ :stream | TonelReader readStream: stream ]) ] ] ].
+	^ definitions
+
+]
+
+{ #category : 'importing' }
 TonelImporter class >> importDefinition: definition [
 	| superClassToUse targetClass |
 	targetClass := Smalltalk classNamed: definition className.
@@ -30,11 +44,30 @@ TonelImporter class >> importDefinition: definition [
 ]
 
 { #category : 'importing' }
+TonelImporter class >> importDefinitions: aCollectionOfDefinitions [
+	"Import the definitions superclass-first: repeatedly import any whose class already
+	 exists or whose superclass is already defined, until none remain. This lets a subclass
+	 be listed (or filed) before its superclass without failing on a missing superclass."
+	| pending progressed |
+	pending := aCollectionOfDefinitions asOrderedCollection.
+	[ pending isEmpty ] whileFalse: [
+		progressed := false.
+		pending copy do: [ :definition |
+			((Smalltalk classNamed: definition className) notNil
+				or: [ (Smalltalk classNamed: definition superclassName) notNil ]) ifTrue: [
+					self importDefinition: definition.
+					pending remove: definition.
+					progressed := true ] ].
+		progressed ifFalse: [
+			self error: 'Missing superclass for: ',
+				(pending collect: [ :each | each className ]) asArray printString ] ]
+
+]
+
+{ #category : 'importing' }
 TonelImporter class >> importDirectory: aDirectoryEntry [
-	aDirectoryEntry children do: [ :entry |
-		entry isDirectoryEntry
-			ifTrue: [ self importDirectory: entry ]
-			ifFalse: [ (entry name endsWith: '.st') ifTrue: [ self importFile: entry ] ] ]
+	self importDefinitions: (self definitionsIn: aDirectoryEntry)
+
 ]
 
 { #category : 'importing' }
