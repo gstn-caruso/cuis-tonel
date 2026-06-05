@@ -69,3 +69,28 @@ TonelImageExporterTest >> testPackageNameForCategory [
 	self assert: (TonelImageExporter packageNameForCategory: #'Tests-Tonel') equals: 'Tests'.
 	self assert: (TonelImageExporter packageNameForCategory: #Tonel) equals: 'Tonel'
 ]
+
+{ #category : 'tests - round trip' }
+TonelImageExporterTest >> testRoundTripPreservesShapeAndExtension [
+	| klass root reread |
+	root := '/tmp/cuis-tonel-rt' asDirectoryEntry.
+	root exists ifTrue: [ root recursiveDelete ].
+	root assureExistence.
+	[
+		klass := ArrayedCollection variableByteSubclass: #TonelRTBytes instanceVariableNames: '' classVariableNames: '' poolDictionaries: '' category: 'Tests-Tonel-RT'.
+		klass compile: 'fortyTwo ^ 42' classified: 'accessing'.
+		klass compile: 'extPing ^ 7' classified: '*ZzzExtPkg'.
+		TonelImageExporter exportClasses: { klass } to: root.
+		klass removeFromSystemUnlogged.
+		self assert: (Smalltalk classNamed: #TonelRTBytes) isNil.
+		TonelImporter importDirectory: (root / 'src').
+		reread := Smalltalk classNamed: #TonelRTBytes.
+		self deny: reread isNil.
+		self assert: reread isBytes.
+		self assert: (reread canUnderstand: #fortyTwo).
+		self assert: (reread canUnderstand: #extPing).
+		self assert: (reread organization categoryOfElement: #extPing) equals: #'*ZzzExtPkg'
+	] ensure: [
+		(Smalltalk classNamed: #TonelRTBytes) ifNotNil: [:c | c removeFromSystemUnlogged ].
+		root exists ifTrue: [ root recursiveDelete ] ]
+]

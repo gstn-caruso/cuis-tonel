@@ -12,7 +12,9 @@ Class {
 		'category',
 		'package',
 		'tag',
-		'methods'
+		'methods',
+		'type',
+		'isExtension'
 	],
 	#category : 'Tonel',
 	#package : 'Tonel'
@@ -79,6 +81,16 @@ TonelClassDefinition >> instanceVariableNames: aCollection [
 ]
 
 { #category : 'accessing' }
+TonelClassDefinition >> isExtension [
+	^ isExtension == true
+]
+
+{ #category : 'accessing' }
+TonelClassDefinition >> isExtension: aBoolean [
+	isExtension := aBoolean
+]
+
+{ #category : 'accessing' }
 TonelClassDefinition >> methods [
 	^ methods ifNil: [ methods := OrderedCollection new ]
 ]
@@ -121,4 +133,14 @@ TonelClassDefinition >> tag [
 { #category : 'accessing' }
 TonelClassDefinition >> tag: aSymbol [
 	tag := aSymbol
+]
+
+{ #category : 'accessing' }
+TonelClassDefinition >> type [
+	^ type
+]
+
+{ #category : 'accessing' }
+TonelClassDefinition >> type: aString [
+	type := aString
 ]

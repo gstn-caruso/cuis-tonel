@@ -53,13 +53,19 @@ TonelReader >> parse [
 	lines := OrderedCollection new.
 	line := stream nextLine.
 	line = '"' ifTrue: [
-		| commentStream next |
+		| commentStream next first |
 		commentStream := WriteStream on: ''.
+		first := true.
 		[ (next := stream nextLine) = '"' ] whileFalse: [
+			first ifFalse: [ commentStream newLine ].
 			commentStream nextPutAll: next.
-			stream atEnd ifFalse: [ commentStream newLine ] ].
+			first := false ].
 		definition comment: commentStream contents.
 		line := stream nextLine ].
+	(line notNil and: [ line withBlanksTrimmed beginsWith: 'Extension {' ]) ifTrue: [
+		definition isExtension: true.
+		definition className: ((line copyAfter: $') copyUpTo: $') asSymbol.
+		^ self parseMethodsInto: definition ].
 	[ line notNil and: [ (line withBlanksTrimmed beginsWith: 'Class {') not ] ] whileTrue: [
 		line := stream nextLine ].
 	lines add: line.
@@ -136,13 +142,17 @@ TonelReader >> parseMethodHeader: headerLine metadata: metadataLine into: defini
 			(handled not and: [ character = $] ]) ifTrue: [
 				depth := depth - 1.
 				depth = 0 ifTrue: [
+					| methodSource |
+					methodSource := sourceStream contents.
+					(methodSource notEmpty and: [ methodSource last = Character lf ]) ifTrue: [
+						methodSource := methodSource allButLast ].
 					method := TonelMethodDefinition new.
 					method
 						className: className asSymbol;
 						classSide: classSide;
 						protocol: protocol asSymbol;
-						source: sourceStream contents;
-						selector: (self selectorFromMethodSource: sourceStream contents).
+						source: methodSource;
+						selector: (self selectorFromMethodSource: methodSource).
 					definition methods add: method.
 					^ self ].
 				sourceStream nextPut: character.
@@ -173,6 +183,7 @@ TonelReader >> parseTypeDefinitionFrom: lines into: definition [
 		classInstanceVariableNames: (self metadataListAt: 'classInstVars' in: lines);
 		category: (self metadataAt: 'category' in: lines) asSymbol;
 		package: (self metadataAt: 'package' in: lines) asSymbol.
+	(self metadataAt: 'type' in: lines) ifNotNil: [ :t | definition type: t ].
 	(self metadataAt: 'tag' in: lines) ifNotNil: [ :tagName | definition tag: tagName asSymbol ].
 	^ definition
 ]

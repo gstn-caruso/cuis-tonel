@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [main, master]
 
+# El VM ya no se vendorea: se baja del release oficial de OpenSmalltalk (misma build
+# que usa qSmalltalk). La imagen Cuis se toma del repo gstn-caruso/qSmalltalk.
+env:
+  VM_RELEASE: "202603271636"
+  VM_BASE_URL: "https://github.com/OpenSmalltalk/opensmalltalk-vm/releases/download"
+
 jobs:
   test-linux-amd64:
     name: Tests (linux/amd64)
@@ -18,16 +24,25 @@ jobs:
         with:
           path: cuis-tonel
 
-      - name: Checkout Cuis-Smalltalk-Dev (VM + image)
+      - name: Checkout qSmalltalk (image)
         uses: actions/checkout@v4
         with:
-          repository: gstn-caruso/Cuis-Smalltalk-Dev
-          path: Cuis-Smalltalk-Dev
+          repository: gstn-caruso/qSmalltalk
+          path: qSmalltalk
           fetch-depth: 1
+
+      - name: Download VM (linux x64)
+        run: |
+          curl -fsSL -o /tmp/vm.tar.gz \
+            "${VM_BASE_URL}/${VM_RELEASE}/squeak.cog.spur_linux64x64.tar.gz"
+          mkdir -p /tmp/vm && tar xzf /tmp/vm.tar.gz -C /tmp/vm
+          VM=$(find /tmp/vm -maxdepth 2 -type f -name squeak | head -1)
+          chmod +x "$VM"
+          echo "CUIS_VM=${VM}" >> "$GITHUB_ENV"
 
       - name: Run tests
         run: |
-          CUIS_DEV_ROOT="$GITHUB_WORKSPACE/Cuis-Smalltalk-Dev" \
+          CUIS_DEV_ROOT="$GITHUB_WORKSPACE/qSmalltalk" \
           CUIS_VM_ARGS="-vm-sound-null -vm-display-null" \
           bash cuis-tonel/.github/scripts/run-tests.sh
 
@@ -42,26 +57,25 @@ jobs:
         with:
           path: cuis-tonel
 
-      - name: Checkout Cuis-Smalltalk-Dev (VM + image)
+      - name: Checkout qSmalltalk (image)
         uses: actions/checkout@v4
         with:
-          repository: gstn-caruso/Cuis-Smalltalk-Dev
-          path: Cuis-Smalltalk-Dev
+          repository: gstn-caruso/qSmalltalk
+          path: qSmalltalk
           fetch-depth: 1
 
-      - name: Set up VM permissions
+      - name: Download VM (linux arm64)
         run: |
-          ARCH="$(uname -m)"
-          case "$ARCH" in
-            aarch64|arm64) VM_BIN="$GITHUB_WORKSPACE/Cuis-Smalltalk-Dev/CuisVM.app/Contents/Linux-arm64/squeak" ;;
-            *) VM_BIN="$GITHUB_WORKSPACE/Cuis-Smalltalk-Dev/CuisVM.app/Contents/Linux-x86_64/squeak" ;;
-          esac
-          chmod +x "$VM_BIN"
-          echo "PLATFORMLIBDIR=/lib/aarch64-linux-gnu" >> "$GITHUB_ENV"
+          curl -fsSL -o /tmp/vm.tar.gz \
+            "${VM_BASE_URL}/${VM_RELEASE}/squeak.cog.spur_linux64ARMv8.tar.gz"
+          mkdir -p /tmp/vm && tar xzf /tmp/vm.tar.gz -C /tmp/vm
+          VM=$(find /tmp/vm -maxdepth 2 -type f -name squeak | head -1)
+          chmod +x "$VM"
+          echo "CUIS_VM=${VM}" >> "$GITHUB_ENV"
 
       - name: Run tests
         run: |
-          CUIS_DEV_ROOT="$GITHUB_WORKSPACE/Cuis-Smalltalk-Dev" \
+          CUIS_DEV_ROOT="$GITHUB_WORKSPACE/qSmalltalk" \
           CUIS_VM_ARGS="-vm-sound-null -vm-display-null" \
           bash cuis-tonel/.github/scripts/run-tests.sh
 

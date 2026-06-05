@@ -57,6 +57,16 @@ TonelWriter class >> stonString: aString [
 ]
 
 { #category : 'writing' }
+TonelWriter class >> tonelTypeOf: aClass [
+	"The Tonel #type token for aClass's storage shape, or nil for a normal fixed class."
+	aClass isWeak ifTrue: [ ^ 'weak' ].
+	aClass isBytes ifTrue: [ ^ 'bytes' ].
+	aClass isWords ifTrue: [ ^ 'words' ].
+	aClass isVariable ifTrue: [ ^ 'variable' ].
+	^ nil
+]
+
+{ #category : 'writing' }
 TonelWriter class >> writeClass: aClass on: stream [
 	| comment category package tag classVars pools |
 	comment := aClass organization classComment.
@@ -68,6 +78,7 @@ TonelWriter class >> writeClass: aClass on: stream [
 	stream nextPutAll: 'Class {'; newLine.
 	self stonKey: 'name' value: aClass name on: stream last: false.
 	self stonKey: 'superclass' value: (aClass superclass ifNil: [ nil ] ifNotNil: [ :parentClass | parentClass name ]) on: stream last: false.
+	(self tonelTypeOf: aClass) ifNotNil: [ :t | self stonKey: 'type' value: t on: stream last: false ].
 	self stonListKey: 'instVars' values: aClass instVarNames on: stream.
 	classVars := aClass classPool keys asArray sort.
 	self stonListKey: 'classVars' values: classVars on: stream.
@@ -89,6 +100,8 @@ TonelWriter class >> writeMethod: selector of: aClassOrMetaclass classSide: clas
 	sourceStream := source readStream.
 	declarationLine := sourceStream nextLine.
 	body := sourceStream upToEnd.
+	[ body notEmpty and: [ body last = Character lf or: [ body last = Character cr ] ] ]
+		whileTrue: [ body := body allButLast ].
 	category := self methodCategoryOf: selector in: aClassOrMetaclass.
 	stream newLine.
 	stream nextPutAll: '{ #category : '''; nextPutAll: (self stonString: category); nextPutAll: ''' }'; newLine.

@@ -66,3 +66,26 @@ TonelWriterTest >> testInstanceMethodIncludesCategoryDeclarationAndBody [
 	self assert: source includes: 'TonelWriterTest >> assert: aString includes: expectedSubstring ['.
 	self assert: source includes: 'includesSubString: expectedSubstring'
 ]
+
+{ #category : 'tests - type' }
+TonelWriterTest >> testTonelTypeOfShapes [
+	self assert: (TonelWriter tonelTypeOf: ByteArray) equals: 'bytes'.
+	self assert: (TonelWriter tonelTypeOf: Bitmap) equals: 'words'.
+	self assert: (TonelWriter tonelTypeOf: WeakArray) equals: 'weak'.
+	self assert: (TonelWriter tonelTypeOf: Array) equals: 'variable'.
+	self assert: (TonelWriter tonelTypeOf: Association) equals: nil
+]
+
+{ #category : 'tests - type' }
+TonelWriterTest >> testWritesNoTypeForFixedClass [
+	| source |
+	source := TonelWriter sourceForClass: Association.
+	self deny: (source includesSubString: '#type :')
+]
+
+{ #category : 'tests - type' }
+TonelWriterTest >> testWritesTypeForVariableByteClass [
+	| source |
+	source := TonelWriter sourceForClass: ByteArray.
+	self assert: (source includesSubString: '#type : ''bytes''')
+]
